@@ -1,10 +1,19 @@
 $(document).ready(function ()
 {
+    window.GAME = {
+        model: {},
+        view: {}
+    };
+
     // creates the global MODEL object
     new InitGameModel();
-
-    // set-up game
-    var controller = new InitGameController();
-    controller.view();
 });
 
+/**
+ * Callback invoked when MODEL is loaded
+ */
+function initGame()
+{
+    var initGame = new InitGameController();
+    initGame.view();
+}

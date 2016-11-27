@@ -5,13 +5,13 @@
     <title>Serious game for kids</title>
 </head>
 <body>
-    <section id="top-bar" class="navbar navbar-default"></section>
+    <section id="top-bar" class="navbar navbar-light bg-faded" style="border-bottom: 1px solid #ccc;"></section>
     <div class="container-fluid">
-        <section id="notifications" class="pull-right" style="z-index:1000;"></section>
         <div class="row">
-            <section id="factory" class="col-lg-4"></section>
-            <section id="warehouse" class="col-lg-4"></section>
-            <section id="customers" class="col-lg-4"></section>
+            <section id="factory" class="col-lg-4 col-sm-6"></section>
+            <section id="warehouse" class="col-lg-4 col-sm-6"></section>
+            <section id="customers" class="col-lg-4 col-sm-6"></section>
+            <section id="history" class="col-lg-4 col-sm-6"></section>
         </div>
     </div>
     <footer>
@@ -19,6 +19,7 @@
         <link rel="stylesheet" type="text/css" href="src/library/css/toastr.min.css">
 
         <script src="src/library/js/jquery-3.1.1.min.js"></script>
+        <script src="src/library/js/js.cookie.min.js"></script>
         <script src="src/library/js/bootstrap.min.js"></script>
         <script src="src/library/js/mustache.min.js"></script>
         <script src="src/library/js/toastr.min.js"></script>
@@ -29,14 +30,21 @@
         <script src="src/models/classes/storage.js"></script>
         <script src="src/models/classes/factory.js"></script>
         <script src="src/models/classes/product.js"></script>
+        <script src="src/models/classes/order.js"></script>
+        <script src="src/models/classes/customer.js"></script>
 
         <script src="src/models/core/model.js"></script>
         <script src="src/models/initgamemodel.js"></script>
 
         <script src="src/controllers/core/controller.js"></script>
+        <script src="src/controllers/core/ordercontroller.js"></script>
+
+        <script src="src/controllers/historycontroller.js"></script>
         <script src="src/controllers/warehousecontroller.js"></script>
         <script src="src/controllers/factorycontroller.js"></script>
+        <script src="src/controllers/customercontroller.js"></script>
         <script src="src/controllers/initgamecontroller.js"></script>
+        <script src="src/controllers/simulationcontroller.js"></script>
 
         <script src="src/main.js"></script>
     </footer>

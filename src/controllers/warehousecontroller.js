@@ -7,19 +7,82 @@ class WarehouseController extends Controller
     }
 
     /**
+     * @see Storage.updatePerishableProducts
+     */
+    updatePerishableProducts()
+    {
+        GAME.model.warehouse.updatePerishableProducts();
+    }
+
+    /**
+     * Adds the contents of an order to the Warehouse.
+     *
+     * @param {Array} products - The list of Products
+     */
+    addOrder(products)
+    {
+        let capacity = products.reduce((sum, prod) => sum + prod.shelfSize());
+
+        if (capacity <= GAME.model.warehouse.usedContainerCapacity()) {
+            toastr.error(Controller.l("There is no room left for this order in the warehouse!"));
+            // TODO try to fit what fits? - context
+        } else {
+            products.forEach(
+                function (product) {
+                    for (let i in GAME.model.warehouse.items) {
+                        let container = GAME.model.warehouse.items[i];
+                        let availableCapacity = container.capacity - container.usedCapacity();
+
+                        if (availableCapacity >= product.shelfSize()) {
+                            container.addItem(product);
+                            break;
+                        } else if (availableCapacity >= product.size) {
+                            let maxProducts = parseInt(availableCapacity / product.size);
+                            let partialProduct = new Product(
+                                product.name,
+                                Math.min(product.quantity, maxProducts),
+                                product.price,
+                                product.size,
+                                product.isPerishable,
+                                product.perishable
+                            );
+
+                            container.addItem(partialProduct);
+
+                            product.quantity = product.quantity - partialProduct.quantity;
+                        }
+                    }
+                }
+            );
+        }
+
+    }
+
+    /**
+     * Helper method to refresh the containers.
+     */
+    updateContainerView()
+    {
+        $("#containers").empty();
+        this._containerHelper();
+    }
+
+    updateCapacityView()
+    {
+        $("#warehouse-used-capacity").html(GAME.model.warehouse.usedContainerCapacity());
+    }
+
+    /**
      * Helper method to display the warehouse
      *
      * @private
      */
     _warehouseHelper()
     {
-        $.get(
+        this._loadTemplate(
             "src/views/template/warehouse.html",
-            function (warehouseView)
-            {
-                var template = Mustache.render(warehouseView, MODEL.warehouse);
-                $("#warehouse").html(template);
-            }
+            "#warehouse",
+            GAME.model.warehouse
         );
     }
 
@@ -30,28 +93,15 @@ class WarehouseController extends Controller
      */
     _containerHelper()
     {
-        $.get(
-            "src/views/template/container.html",
-            function (containerView)
-            {
-                var containers = MODEL.warehouse.items;
-
-                containers.forEach(function (container) {
-                    var template = Mustache.render(containerView, container);
-                    $("#containers").append(template);
-                });
+        GAME.model.warehouse.items.forEach(
+            (container) => {
+                super._loadTemplate(
+                    "src/views/template/container.html",
+                    "#containers",
+                    container,
+                    true
+                );
             }
         );
-    }
-
-    /**
-     * Helper method to refresh the containers.
-     *
-     * @private
-     */
-    _updateContainers()
-    {
-        $("#containers").empty();
-        this._containerHelper();
     }
 }

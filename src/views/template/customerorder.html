@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{#l}}{{ name }}{{/l}}
+    </div>
+    <ul class="list-group">
+        {{ #order.products }}
+            <li class="list-group-item">{{#l}}{{ name }}{{/l}} <span class="badge">{{ quantity }}</span></li>
+        {{ /order.products }}
+    </ul>
+    <div class="panel-footer">
+        {{#l}}Earn{{/l}} {{ order.orderCost }}
+    </div>
+</div>

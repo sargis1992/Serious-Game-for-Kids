@@ -1,31 +1,32 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        {{ name }}
+        {{#l}}{{ name }}{{/l}}
         <span class="pull-right">
-            Capacity used: {{ _usedCapacity }} / {{ capacity }}
+            {{#l}}Capacity used{{/l}}: <strong>{{ usedCapacity }}</strong> / {{ capacity }}
         </span>
     </div>
-
-    {{ ^items }}
-        <div class="panel-body">
-            This container is empty.
-        </div>
-    {{ /items }}
-
-    <table class="table">
-        <thead>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
             <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Size</th>
-                <th>Perishes</th>
+                <th>{{#l}}Product{{/l}}</th>
+                <th>{{#l}}Quantity{{/l}}</th>
+                <th>{{#l}}Size{{/l}}</th>
+                <th>{{#l}}Perishes{{/l}}</th>
             </tr>
-        </thead>
-        <tbody>
-            {{ #items }}
+            </thead>
+            <tbody>
+                {{ ^items }}
+                <tr>
+                    <td colspan="4" class="text-center">
+                        {{#l}}This container is empty{{/l}}.
+                    </td>
+                </tr>
+                {{ /items }}
+                {{ #items }}
                 <tr>
                     <td>
-                        {{ name }}
+                        {{#l}}{{ name }}{{/l}}
                     </td>
                     <td>
                         {{ quantity }}
@@ -35,15 +36,15 @@
                     </td>
                     <td>
                         {{ #isPerishable }}
-                            {{ perishable }} days
+                            {{ perishable }} {{#l}}days{{/l}}.
                         {{ /isPerishable }}
                         {{ ^isPerishable }}
                             -
                         {{ /isPerishable }}
                     </td>
                 </tr>
-            {{ /items }}
-        </tbody>
-    </table>
-
+                {{ /items }}
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -10,10 +10,13 @@ class InitGameModel extends Model
 
         for (var i = 0; i < this.model.config.warehouseContainers; i++) {
             this.model.warehouse.addItem(
-                new Container("Shelf", this.model.config.containerCapacity)
+                new Container("Rack", this.model.config.containerCapacity)
             );
         }
 
         this.toObject();
+
+        // callback for when the MODEL exists in the window
+        initGame();
     }
 }
